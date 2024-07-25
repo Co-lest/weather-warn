@@ -36,5 +36,3 @@ function showPosition(position) {
         par.textContent = "An unknown error occurred.";
     }
   }
-  
-  getLocation();
