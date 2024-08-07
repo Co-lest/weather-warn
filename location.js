@@ -36,3 +36,20 @@ function showPosition(position) {
         par.textContent = "An unknown error occurred.";
     }
   }
+
+  /*
+  async function getWeatherData(latitude, longitude) {
+  const apiUrl = `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&hourly=relative_humidity_2m`;  
+
+
+  try {
+    const response = await fetch(apiUrl);
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error('Error fetching data:', error);
+    return  
+ null;
+  }
+}
+  */
