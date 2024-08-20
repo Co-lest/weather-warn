@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!--<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -39,7 +39,6 @@
     <button class="carousel-button prev">&lt;</button>
     <div class="carousel-track-container">
       <div class="carousel-track" id="current-weather-track">
-        <!-- Cards will be dynamically inserted here -->
       </div>
     </div>
     <button class="carousel-button next">&gt;</button>
@@ -49,7 +48,6 @@
     <button class="carousel-button prev">&lt;</button>
     <div class="carousel-track-container">
       <div class="carousel-track" id="other-days-track">
-        <!-- Cards will be dynamically inserted here -->
       </div>
     </div>
     <button class="carousel-button next">&gt;</button>
@@ -157,4 +155,368 @@ function initializeCarousel(carouselId) {
 window.addEventListener('load', populateCarousel);
 
 </script>
+</html>-->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Weather App</title>
+  <style>
+    :root {
+      --background-color-light: #f0f0f0;
+      --text-color-light: #333;
+      --card-background-color-light: #fff;
+      --card-shadow-light: rgba(0, 0, 0, 0.1);
+
+      --background-color-dark: #121212;
+      --text-color-dark: #e0e0e0;
+      --card-background-color-dark: #1e1e1e;
+      --card-shadow-dark: rgba(0, 0, 0, 0.5);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+      background-color: var(--background-color-light);
+      color: var(--text-color-light);
+      font-family: Arial, sans-serif;
+      transition: background-color 0.3s, color 0.3s;
+    }
+
+    .card {
+      background: var(--card-background-color-light);
+      border-radius: 10px;
+      box-shadow: 0 4px 8px var(--card-shadow-light);
+      max-width: 90%;
+      width: 400px;
+      padding: 20px;
+      text-align: center;
+      transition: transform 0.3s, background-color 0.3s, box-shadow 0.3s;
+      margin-top: 20px;
+    }
+
+    .card:hover {
+      transform: translateY(-10px);
+    }
+
+    .card h1 {
+      font-size: 1.5em;
+      margin-bottom: 20px;
+    }
+
+    .card img {
+      max-width: 100%;
+      height: auto;
+      margin-bottom: 20px;
+    }
+
+    .card p {
+      font-size: 1.2em;
+    }
+
+    button {
+      margin-top: 20px;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      background-color: var(--text-color-light);
+      color: var(--background-color-light);
+      cursor: pointer;
+      transition: background-color 0.3s, color 0.3s;
+    }
+
+    button:hover {
+      background-color: var(--text-color-dark);
+    }
+
+    .carousel {
+      display: flex;
+      align-items: center;
+      margin-top: 20px;
+      width: 100%;
+    }
+
+    .carousel-button {
+      background-color: var(--text-color-light);
+      border: none;
+      color: var(--background-color-light);
+      cursor: pointer;
+      padding: 10px;
+      margin: 0 10px;
+      border-radius: 5px;
+      transition: background-color 0.3s, color 0.3s;
+    }
+
+    .carousel-button:hover {
+      background-color: var(--text-color-dark);
+    }
+
+    .carousel-track-container {
+      overflow: hidden;
+      width: 80%;
+    }
+
+    .carousel-track {
+      display: flex;
+      transition: transform 0.3s ease-in-out;
+    }
+
+    .smaller-card {
+      background: var(--card-background-color-light);
+      border-radius: 10px;
+      box-shadow: 0 4px 8px var(--card-shadow-light);
+      width: 200px;
+      padding: 15px;
+      text-align: center;
+      margin-right: 10px;
+      transition: transform 0.3s, background-color 0.3s, box-shadow 0.3s;
+    }
+
+    .smaller-card:hover {
+      transform: translateY(-5px);
+    }
+
+    .smaller-card h1 {
+      font-size: 1.2em;
+      margin-bottom: 15px;
+    }
+
+    .smaller-card img {
+      max-width: 100%;
+      height: auto;
+      margin-bottom: 15px;
+    }
+
+    .smaller-card p {
+      font-size: 1em;
+    }
+
+    .dark-mode {
+      background-color: var(--background-color-dark);
+      color: var(--text-color-dark);
+    }
+
+    .dark-mode .card, .dark-mode .smaller-card {
+      background: var(--card-background-color-dark);
+      box-shadow: 0 4px 8px var(--card-shadow-dark);
+    }
+
+    .dark-mode button {
+      background-color: var(--text-color-dark);
+      color: var(--background-color-dark);
+    }
+
+    @media (max-width: 768px) {
+      .card {
+        width: 80%;
+        padding: 15px;
+      }
+
+      .card h1 {
+        font-size: 1.2em;
+        margin-bottom: 15px;
+      }
+
+      .card p {
+        font-size: 1em;
+      }
+
+      .smaller-card {
+        width: 180px;
+        padding: 10px;
+      }
+
+      .smaller-card h1 {
+        font-size: 1em;
+        margin-bottom: 10px;
+      }
+
+      .smaller-card p {
+        font-size: 0.9em;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .card {
+        width: 100%;
+        padding: 10px;
+      }
+
+      .card h1 {
+        font-size: 1em;
+        margin-bottom: 10px;
+      }
+
+      .card p {
+        font-size: 0.9em;
+      }
+
+      .smaller-card {
+        width: 160px;
+        padding: 8px;
+      }
+
+      .smaller-card h1 {
+        font-size: 0.9em;
+        margin-bottom: 8px;
+      }
+
+      .smaller-card p {
+        font-size: 0.8em;
+      }
+    }
+  </style>
+</head>
+<body>
+  <h1>Weather App</h1>
+  <div class="headDiv"></div>
+  <button id="toggleDarkMode">Toggle Dark Mode</button>
+
+  <div class="carousel" id="current-weather-carousel">
+    <button class="carousel-button prev">&lt;</button>
+    <div class="carousel-track-container">
+      <div class="carousel-track"></div>
+    </div>
+    <button class="carousel-button next">&gt;</button>
+  </div>
+
+  <div class="other-days">
+    <div class="carousel" id="other-days-carousel">
+      <button class="carousel-button prev">&lt;</button>
+      <div class="carousel-track-container">
+        <div class="carousel-track"></div>
+      </div>
+      <button class="carousel-button next">&gt;</button>
+    </div>
+  </div>
+
+  <script>
+    document.getElementById("toggleDarkMode").addEventListener("click", () => {
+      document.body.classList.toggle("dark-mode");
+    });
+
+    function initializeCarousel(carouselId) {
+      const carousel = document.getElementById(carouselId);
+      const track = carousel.querySelector(".carousel-track");
+      const cards = Array.from(track.children);
+
+      if (cards.length === 0) {
+        console.error("No cards found in the carousel.");
+        return;
+      }
+
+      const prevButton = carousel.querySelector(".prev");
+      const nextButton = carousel.querySelector(".next");
+      const cardWidth = cards[0].getBoundingClientRect().width;
+      let currentIndex = 0;
+
+      nextButton.addEventListener("click", () => moveToNextSlide());
+      prevButton.addEventListener("click", () => moveToPrevSlide());
+
+      function moveToNextSlide() {
+        currentIndex = (currentIndex + 1) % cards.length;
+        track.style.transform = `translateX(-${cardWidth * currentIndex}px)`;
+      }
+
+      function moveToPrevSlide() {
+        currentIndex = (currentIndex - 1 + cards.length) % cards.length;
+        track.style.transform = `translateX(-${cardWidth * currentIndex}px)`;
+      }
+
+      // Automatic carousel sliding
+      setInterval(moveToNextSlide, 3000);
+    }
+
+    function getLocation() {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(showPosition, showError);
+      } else {
+        console.error("Geolocation is not supported by this browser.");
+      }
+    }
+
+    function showPosition(position) {
+      const latitude = position.coords.latitude.toFixed(2);
+      const longitude = position.coords.longitude.toFixed(2);
+      const url = `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&hourly=temperature_2m,snowfall,rain,is_day`;
+      fetchWeatherData(url);
+    }
+
+    function showError(error) {
+      switch (error.code) {
+        case error.PERMISSION_DENIED:
+          console.error("User denied the request for Geolocation.");
+          break;
+        case error.POSITION_UNAVAILABLE:
+          console.error("Location information is unavailable.");
+          break;
+        case error.TIMEOUT:
+          console.error("The request to get user location timed out.");
+          break;
+        default:
+          console.error("An unknown error occurred.");
+      }
+    }
+
+    function fetchWeatherData(url) {
+      fetch(url)
+        .then(response => response.json())
+        .then(data => {
+          console.log(data);
+          updateWeatherDisplay(data);
+        })
+        .catch(error => console.error("Error fetching weather data:", error));
+    }
+
+    function updateWeatherDisplay(data) {
+      const weatherData = data.hourly;
+      const currentWeatherCarousel = document.getElementById("current-weather-carousel");
+      const otherDaysCarousel = document.getElementById("other-days-carousel");
+
+      const currentWeatherTrack = currentWeatherCarousel.querySelector(".carousel-track");
+      currentWeatherTrack.innerHTML = "";
+      weatherData.temperature_2m.forEach((temp, index) => {
+        const weatherCard = document.createElement("div");
+        weatherCard.classList.add("card");
+        weatherCard.innerHTML = `
+          <img src="https://via.placeholder.com/400x200.png?text=Weather+Image" alt="Weather Image">
+          <h1>Temp: ${temp}°C</h1>
+          <p>Time: ${index} hours</p>
+        `;
+        currentWeatherTrack.appendChild(weatherCard);
+      });
+
+      initializeCarousel("current-weather-carousel");
+
+      const otherDaysTrack = otherDaysCarousel.querySelector(".carousel-track");
+      otherDaysTrack.innerHTML = "";
+      weatherData.temperature_2m.forEach((temp, index) => {
+        const smallerCard = document.createElement("div");
+        smallerCard.classList.add("smaller-card");
+        smallerCard.innerHTML = `
+          <img src="https://via.placeholder.com/200x100.png?text=Day+${index+1}" alt="Day ${index+1}">
+          <h1>Temp: ${temp}°C</h1>
+          <p>Day: ${index + 1}</p>
+        `;
+        otherDaysTrack.appendChild(smallerCard);
+      });
+
+      initializeCarousel("other-days-carousel");
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+      getLocation();
+    });
+  </script>
+</body>
 </html>

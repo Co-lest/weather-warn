@@ -37,6 +37,8 @@ body {
   text-align: center;
   transition: transform 0.3s, background-color 0.3s, box-shadow 0.3s;
   margin-top: 20px;
+  margin-left: 5px;
+  margin-right: 5px;
 }
 
 .card:hover {
@@ -55,7 +57,7 @@ body {
 }
 
 .card p {
-  font-size: 1.2em;
+  font-size: 1.0em;
 }
 
 button {
@@ -78,6 +80,7 @@ button:hover {
   align-items: center;
   margin-top: 20px;
   width: 100%;
+  margin-left: 10%;
 }
 
 .carousel-button {
@@ -208,4 +211,13 @@ button:hover {
   .smaller-card p {
     font-size: 0.8em;
   }
+}
+.conc{
+  margin-top: 30px;
+  margin-bottom: 30px;
+  text-align: center;
+}
+.heading{
+  font-size: 1.9em;
+  margin-bottom: 8px;
 }
