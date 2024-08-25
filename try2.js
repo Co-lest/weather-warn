@@ -181,7 +181,7 @@ function warnUser(dataArr) {
     }
   });
   //is_day_bool
-  displayUI(averagetTemp,averageRain,averageSnow,tempData,rainData,snowData,cloudcoverData,averageCloud);
+  displayUI(averagetTemp,averageRain, averageSnow, tempData, rainData, snowData, cloudcoverData,averageCloud);
   displayDays(averagetTemp, averageRain, averageSnow,averageCloud, tempData, rainData, snowData, cloudcoverData);
 }
 
@@ -203,10 +203,10 @@ function displayUI(averagetTemp, averageRain, averageSnow, tempData, rainData, s
     par4.innerHTML = `Expect heavy rains today (check hourly data for clarification)`;
   } else if (averageRain >= 0.25 && averageRain <= 2.5) {
     par4.innerHTML = `Expect light rains today (check hourly data for clarification)`;
-  } else if (averageCloud < 30) {
+  } else if (averageCloud <= 60) {
     par1.innerHTML = `Today will be sunny. Have a nice day!`;
-  } else if (averageCloud > 30) {
-    par4.innerHTML = `Today will just be chilly. Wear heavy clothing. Have a nice day!`;
+  } else if (averageCloud > 60) {
+    par4.innerHTML = `Today will just be cloudy. No rain expected today. Have a nice day!`;
   } else if (averageSnow > 0.5) {
     par1.innerHTML = `Expect high snow inches! Snow falling from roofs are dangerous!`;
   }
@@ -217,10 +217,10 @@ function displayUI(averagetTemp, averageRain, averageSnow, tempData, rainData, s
   } else if (averageRain >= 0.25 && averageRain <= 2.5) {
     imageWeather.src = `./utils/rain.png`;
     par1.innerHTML = `Rain`;
-  } else if (averageCloud < 30) {
+  } else if (averageCloud <= 60) {
     imageWeather.src = `./utils/sun.png`;
     par1.innerHTML = `Sun`;
-  } else if (averageCloud > 30) {
+  } else if (averageCloud > 60) {
     imageWeather.src = `./utils/cloudy.png`;
     par1.innerHTML = `Cloudy`;
   } else if (averageSnow > 0.5) {
@@ -289,22 +289,22 @@ function displayUISmall(tempData, rainData, snowData, cloudcoverData) {
       par1.innerHTML = `Storm`;
     } else if (rainData[arrCount] >= 0.1 && rainData[arrCount] <= 0.29 && is_day_boolTruth) {
       imageWeather.src = `./utils/rain.png`;
-      par1.innerHTML = `Cloudy`;
+      par1.innerHTML = `Rain`;
     } else if (rainData[arrCount] >= 0.1 && rainData[arrCount] <= 0.29 && !is_day_boolTruth) {
       imageWeather.src = `./utils/moonrain.png`;
-      par1.innerHTML = `Cloudy`;
-    } else if (cloudcoverData[arrCount] < 30 && is_day_boolTruth) {
+      par1.innerHTML = `Rainy night`;
+    } else if (cloudcoverData[arrCount] < 65 && is_day_boolTruth) {
       imageWeather.src = `./utils/sun.png`;
       par1.innerHTML = `Sun`;
-    } else if (cloudcoverData[arrCount] > 30 && is_day_boolTruth) {
+    } else if (cloudcoverData[arrCount] >= 65 && is_day_boolTruth) {
       imageWeather.src = `./utils/cloudy.png`;
       par1.innerHTML = `Cloudy`;
-    } else if (cloudcoverData[arrCount] < 30 && !is_day_boolTruth) {
+    } else if (cloudcoverData[arrCount] < 65 && !is_day_boolTruth) {
       imageWeather.src = `./utils/moon.png`;
       par1.innerHTML = `Moon`;
-    } else if (cloudcoverData[arrCount] > 30 && !is_day_boolTruth) {
+    } else if (cloudcoverData[arrCount] >= 65 && !is_day_boolTruth) {
       imageWeather.src = `./utils/moonclouds.png`;
-      par1.innerHTML = `Moon`;
+      par1.innerHTML = `Cloudy night`;
     }else if (snowData[arrCount] > 0.5) {
       imageWeather.src = `./utils/snowflake.png`;
       par1.innerHTML = `Snow`;
@@ -326,6 +326,7 @@ function displayUISmall(tempData, rainData, snowData, cloudcoverData) {
 }
 
 function displayDays(averagetTemp, averageRain, averageSnow, averageCloud, tempData, rainData, snowData, cloudcoverData) {
+  console.log(cloudcoverData);
   let arrCount = 0;
   let now = new Date();
   let hours = 24 - new Date().getHours();
@@ -349,13 +350,13 @@ function displayDays(averagetTemp, averageRain, averageSnow, averageCloud, tempD
       if (averageRain > 2.5) {
         imageWeather.src = `./utils/storm.png`;
         par1.innerHTML = `Storm`;
-      } else if (averageRain >= 0.25 && averageRain <= 2.5) {
+      } else if (averageRain > 0.25 && averageRain <= 2.5) {
         imageWeather.src = `./utils/rain.png`;
         par1.innerHTML = `Rain`;
-      } else if (averageCloud < 30) {
+      } else if (averageCloud <= 65) {
         imageWeather.src = `./utils/sun.png`;
         par1.innerHTML = `Sun`;
-      } else if (averageCloud > 30) {
+      } else if (averageCloud > 65) {
         imageWeather.src = `./utils/cloudy.png`;
         par1.innerHTML = `Cloudy`;
       } else if (averageSnow > 0.5) {
@@ -394,7 +395,7 @@ function displayDays(averagetTemp, averageRain, averageSnow, averageCloud, tempD
       averageTempActual = averageTempActual / (arrCount - actualArrCount);
       averageSnowActual = averageSnowActual / (arrCount - actualArrCount);
       averageCloudActual = averageCloudActual / (arrCount - actualArrCount);
-      averageRainActual = averageCloudActual / (arrCount - actualArrCount);
+      averageRainActual = averageRainActual / (arrCount - actualArrCount);
 
       let card2 = document.createElement("div");
       let imageWeather = document.createElement("img");
@@ -411,22 +412,16 @@ function displayDays(averagetTemp, averageRain, averageSnow, averageCloud, tempD
       if (averageRainActual > 2.5) {
         imageWeather.src = `./utils/storm.png`;
         par1.innerHTML = `Storm`;
-      } else if (averageRainActual < 2.5 && averageRainActual > 0.25) {
+      } else if (averageRainActual >= 0.25 && averageRainActual <= 2.5) {
         imageWeather.src = `./utils/rain.png`;
-        par1.innerHTML = `Cloudy`;
-      } else if (averageRainActual < 2.5 && averageRainActual > 0.25) {
-        imageWeather.src = `./utils/moonrain.png`;
-        par1.innerHTML = `Cloudy`;
-      } else if (averageCloudActual < 30) {
+        par1.innerHTML = `Rain`;
+      } else if (averageCloudActual <= 65) {
         imageWeather.src = `./utils/sun.png`;
         par1.innerHTML = `Sun`;
-      } else if (averageCloudActual < 30) {
-        imageWeather.src = `./utils/moon.png`;
-        par1.innerHTML = `Moon`;
-      }else if (averageCloudActual > 30) {
-        imageWeather.src = `./utils/moonclouds.png`;
-        par1.innerHTML = `Moon`;
-      }else if (averageSnowActual > 0.5) {
+      } else if (averageCloudActual > 65) {
+        imageWeather.src = `./utils/cloudy.png`;
+        par1.innerHTML = `Cloudy`;
+      } else if (averageSnowActual > 0.5) {
         imageWeather.src = `./utils/snowflake.png`;
         par1.innerHTML = `Snow`;
       }
@@ -480,10 +475,10 @@ function displayDays(averagetTemp, averageRain, averageSnow, averageCloud, tempD
       } else if (averageRainActual >= 0.25 && averageRainActual <= 2.5) {
         imageWeather.src = `./utils/rain.png`;
         par1.innerHTML = `Rain`;
-      } else if (averageCloudActual < 30) {
+      } else if (averageCloudActual <= 65) {
         imageWeather.src = `./utils/sun.png`;
         par1.innerHTML = `Sun`;
-      } else if (averageCloudActual > 30) {
+      } else if (averageCloudActual > 65) {
         imageWeather.src = `./utils/cloudy.png`;
         par1.innerHTML = `Cloudy`;
       } else if (averageSnowActual > 0.5) {

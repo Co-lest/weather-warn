@@ -16,11 +16,6 @@ const weatherCodes = {
   visibility: "visibility"
 }
 
-/*const values = Object.values(weatherCodes);
-
-values.forEach((values) =>{
-  getInformation(values);
-});*/
 
 let url;
 
@@ -99,53 +94,6 @@ function getInformation(){
     .catch((error) => console.error("Error fetching data:", error));
 }
 getInformation();
-
-/*
-const person = {
-  firstName: "John",
-  lastName: "Doe",
-  age: 30
-};
-
-const values = Object.values(person);
-
-values.forEach(value => console.log(value)); 
-*/
-
-/*
-fetch(url + values)
-    .then((response) => response.json())
-    .then((data) => {
-      if (data.hasOwnProperty("error")) {
-        console.error("Error:", data.error);
-      } else {
-        const temperatures = data.hourly.values;
-
-        // Loop through temperatures and build the content string
-        let content = "";
-        temperatures.forEach((element) => {
-          content += element + "°C, ";
-        });
-
-        content = content.slice(0, -2);
-
-        par.textContent = content;
-
-        const maxTemp = Math.max(...temperatures);
-        const minTemp = Math.min(...temperatures);
-
-        if (maxTemp > 39) {
-          console.log(`There is very high temperature: ${maxTemp}°C`);
-        } else if (minTemp < 29) {
-          console.log(`There is Very low temperature: ${minTemp}°C`);
-        } else {
-          console.log(`The weather seems to be all good.`);
-        }
-        //console.log("Maximum temperature:", maxTemp, "°C");
-      }
-    })
-    .catch((error) => console.error("Error fetching data:", error));
-*/
 
 btn.addEventListener("click", () => {
   fetch(url)

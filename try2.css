@@ -27,6 +27,10 @@ body {
   transition: background-color 0.3s, color 0.3s;
 }
 
+body > h1 {
+  top: 20px;
+}
+
 .card {
   background: var(--card-background-color-light);
   border-radius: 10px;
